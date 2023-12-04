@@ -135,6 +135,7 @@ void atualizar() {
 
   if (ret == null) {
     print("Erro ao atualizar.");
+    return;
   }
 
   print("Pessoa atualizada!");
