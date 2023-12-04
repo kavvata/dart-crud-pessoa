@@ -47,4 +47,16 @@ class Pessoa {
   void setIdade(idade) {
     this._idade = idade;
   }
+
+  String toString() {
+    String relatorio = "";
+
+    relatorio += "$_id - ";
+    relatorio += "Nome: $_nome / ";
+    relatorio += "Email: $_email / ";
+    relatorio += "Telefone: $_telefone / ";
+    relatorio += "idade: $_idade";
+
+    return relatorio;
+  }
 }
