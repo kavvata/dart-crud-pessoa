@@ -15,7 +15,7 @@ class RepositorioPessoa {
     return _dao.cadastrarPessoa(Pessoa.nova(nome, email, telefone, idade));
   }
 
-  Pessoa atualizarPessoa(
+  Pessoa? atualizarPessoa(
       int id, String nome, String email, String telefone, int idade) {
     return _dao.atualizarPessoa(id, Pessoa(id, nome, email, telefone, idade));
   }
