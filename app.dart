@@ -1,13 +1,21 @@
 import 'dart:io';
 
+import 'package:sqlite3/sqlite3.dart';
+
+import 'daos/pessoaDAO.dart';
+import 'entities/Pessoa.dart';
+import 'repositories/repositorioPessoa.dart';
+
+final dao = PessoaDAO(sqlite3.open("./db.sqlite"));
+final repo = RepositorioPessoa(dao);
+
 void main() {
   const Map<int, Function> acoes = {
     0: sair,
     1: listar,
     2: cadastrar,
-    3: buscar,
-    4: atualizar,
-    5: remover
+    3: atualizar,
+    4: remover
   };
 
   int opcaoUsuario = -1;
@@ -36,12 +44,21 @@ void mostraMenu() {
 
   conteudo += "1 - Listar pessoas\n";
   conteudo += "2 - Cadastrar nova pessoa\n";
-  conteudo += "3 - Buscar pessoa\n";
-  conteudo += "4 - Atualizar pessoa\n";
-  conteudo += "5 - Remover pessoa\n";
+  conteudo += "3 - Atualizar pessoa\n";
+  conteudo += "4 - Remover pessoa\n";
   conteudo += "0 - Sair\n";
 
   stdout.write(conteudo + "> ");
+}
+
+String getString() {
+  String input = "";
+
+  while (input.isEmpty) {
+    input = stdin.readLineSync() ?? "";
+  }
+
+  return input;
 }
 
 void sair() {
@@ -49,18 +66,32 @@ void sair() {
 }
 
 void listar() {
-  // TODO
-  print("listar");
+  Set<Pessoa> lista = repo.listarPessoas();
+
+  print("=== LISTA DE PESSOAS ===");
+  lista.forEach((pessoa) {
+    print(pessoa.toString());
+  });
 }
 
 void cadastrar() {
-  // TODO
-  print("cadastrar");
-}
+  print("=== CADASTRO ===");
 
-void buscar() {
-  // TODO
-  print("buscar");
+  stdout.write("Nome: ");
+  String nome = getString();
+
+  stdout.write("Email: ");
+  String email = getString();
+
+  stdout.write("Telefone: ");
+  String telefone = getString();
+
+  stdout.write("Idade: ");
+  int idade = int.parse(getString());
+
+  Pessoa nova = repo.cadastrarPessoa(nome, email, telefone, idade);
+
+  print("Pessoa cadastrada! id: " + nova.getId().toString());
 }
 
 void atualizar() {
