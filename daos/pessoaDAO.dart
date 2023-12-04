@@ -28,15 +28,10 @@ class PessoaDAO {
       VALUES (?,?,?,?)
     ''');
 
-    pstm.execute([
-      pessoa.getNome(),
-      pessoa.getEmail(),
-      pessoa.getTelefone(),
-      pessoa.getIdade()
-    ]);
+    pstm.execute([pessoa.nome, pessoa.email, pessoa.telefone, pessoa.idade]);
 
     int id = _db.lastInsertRowId;
-    pessoa.setId(id);
+    pessoa.id = id;
 
     return pessoa;
   }
@@ -46,13 +41,8 @@ class PessoaDAO {
       UPDATE pessoas SET nome=?, email=?, telefone=?, idade=? WHERE id=?
     ''');
 
-    pstm.execute([
-      pessoa.getNome(),
-      pessoa.getEmail(),
-      pessoa.getTelefone(),
-      pessoa.getIdade(),
-      id
-    ]);
+    pstm.execute(
+        [pessoa.nome, pessoa.email, pessoa.telefone, pessoa.idade, id]);
 
     int countAlteradas = _db.getUpdatedRows();
 

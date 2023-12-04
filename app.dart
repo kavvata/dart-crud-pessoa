@@ -96,7 +96,7 @@ void cadastrar() {
 
   Pessoa nova = repo.cadastrarPessoa(nome, email, telefone, idade);
 
-  print("Pessoa cadastrada! id: " + nova.getId().toString());
+  print("Pessoa cadastrada! id: " + nova.id.toString());
 }
 
 void atualizar() {
@@ -125,13 +125,12 @@ void atualizar() {
   stdout.write("Nova idade: ");
   String idadeStr = stdin.readLineSync() ?? "";
 
-  p.setNome(nome.isEmpty ? p.getNome() : nome);
-  p.setEmail(email.isEmpty ? p.getEmail() : email);
-  p.setTelefone(telefone.isEmpty ? p.getTelefone() : telefone);
-  p.setIdade(idadeStr.isEmpty ? p.getIdade() : int.parse(idadeStr));
+  p.nome = nome.isEmpty ? p.nome : nome;
+  p.email = email.isEmpty ? p.email : email;
+  p.telefone = telefone.isEmpty ? p.telefone : telefone;
+  p.idade = idadeStr.isEmpty ? p.idade : int.parse(idadeStr);
 
-  final ret = repo.atualizarPessoa(
-      id, p.getNome(), p.getEmail(), p.getTelefone(), p.getIdade());
+  final ret = repo.atualizarPessoa(id, p.nome, p.email, p.telefone, p.idade);
 
   if (ret == null) {
     print("Erro ao atualizar.");

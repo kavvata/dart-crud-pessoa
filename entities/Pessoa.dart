@@ -8,44 +8,26 @@ class Pessoa {
   Pessoa(this._id, this._nome, this._email, this._telefone, this._idade);
   Pessoa.nova(this._nome, this._email, this._telefone, this._idade);
 
-  int? getId() {
-    return _id;
-  }
+  // sintaxe arrow function de getters e setters.
+  int? get id => _id;
+  set id(int? id) => _id = id;
 
-  void setId(int id) {
-    this._id = id;
-  }
+  String get nome => _nome;
+  set nome(String nome) => _nome = nome;
 
-  String getNome() {
-    return this._nome;
-  }
+  String get email => _email;
+  set email(String email) => _email = email;
 
-  void setNome(nome) {
-    this._nome = nome;
-  }
+  String get telefone => _telefone;
+  set telefone(String telefone) => _telefone = telefone;
 
-  String getEmail() {
-    return this._email;
-  }
+  int get idade => _idade;
 
-  void setEmail(email) {
-    this._email = email;
-  }
-
-  String getTelefone() {
-    return this._telefone;
-  }
-
-  void setTelefone(telefone) {
-    this._telefone = telefone;
-  }
-
-  int getIdade() {
-    return this._idade;
-  }
-
-  void setIdade(idade) {
-    this._idade = idade;
+  set idade(int idade) {
+    if (idade < 0) {
+      throw new Exception("idade '$idade' inválida!");
+    }
+    _idade = idade;
   }
 
   String toString() {
