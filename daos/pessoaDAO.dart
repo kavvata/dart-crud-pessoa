@@ -14,7 +14,7 @@ class PessoaDAO {
 
     for (final Row linha in rs) {
       Pessoa p = Pessoa(linha['id'], linha['nome'], linha['email'],
-          linha['telefone'], int.parse(linha['idade']));
+          linha['telefone'], linha['idade']);
 
       lista.add(p);
     }
@@ -24,7 +24,7 @@ class PessoaDAO {
 
   Pessoa cadastrarPessoa(Pessoa pessoa) {
     final pstm = _db.prepare(''' 
-      INSERT INTO pessoa(nome, email, telefone, idade)
+      INSERT INTO pessoas(nome, email, telefone, idade)
       VALUES (?,?,?,?)
     ''');
 
