@@ -23,10 +23,14 @@ void main() {
   while (opcaoUsuario != 0) {
     mostraMenu();
 
-    // le stdin.
+    // lê stdin.
     // Se for nulo, retorna string vazia.
     //Se nao, retorna entrada.
-    opcaoUsuario = int.parse(stdin.readLineSync() ?? "");
+    String entrada = stdin.readLineSync() ?? "";
+
+    // int.parse() gera excessão se string for vazia.
+    // usando operador ternario para mudar para -1 se for o caso.
+    opcaoUsuario = int.parse(entrada.isEmpty ? "-1" : entrada);
 
     if (!acoes.containsKey(opcaoUsuario)) {
       print("Opção inválida");
@@ -72,6 +76,7 @@ void listar() {
   lista.forEach((pessoa) {
     print(pessoa.toString());
   });
+  print("");
 }
 
 void cadastrar() {
@@ -95,11 +100,56 @@ void cadastrar() {
 }
 
 void atualizar() {
-  // TODO
-  print("atualizar");
+  print("=== ATUALIZAR ===");
+
+  stdout.write("Digite o id da Pessoa a ser editada\n> ");
+  int id = int.parse(getString());
+
+  Pessoa? p = repo.buscarPessoaId(id);
+  if (p == null) {
+    print("Pessoa $id nao encontrada");
+    return;
+  }
+
+  print("para não alterar dado, deixar vazio");
+
+  stdout.write("Novo nome: ");
+  String nome = stdin.readLineSync() ?? "";
+
+  stdout.write("Novo email: ");
+  String email = stdin.readLineSync() ?? "";
+
+  stdout.write("Novo telefone: ");
+  String telefone = stdin.readLineSync() ?? "";
+
+  stdout.write("Nova idade: ");
+  String idadeStr = stdin.readLineSync() ?? "";
+
+  p.setNome(nome.isEmpty ? p.getNome() : nome);
+  p.setEmail(email.isEmpty ? p.getEmail() : email);
+  p.setTelefone(telefone.isEmpty ? p.getTelefone() : telefone);
+  p.setIdade(idadeStr.isEmpty ? p.getIdade() : int.parse(idadeStr));
+
+  final ret = repo.atualizarPessoa(
+      id, p.getNome(), p.getEmail(), p.getTelefone(), p.getIdade());
+
+  if (ret == null) {
+    print("Erro ao atualizar.");
+  }
+
+  print("Pessoa atualizada!");
 }
 
 void remover() {
-  // TODO
-  print("remover");
+  stdout.write("Digite o id da Pessoa a ser removida\n> ");
+  int id = int.parse(getString());
+
+  final sucesso = repo.removerPessoa(id);
+
+  if (!sucesso) {
+    print("Erro ao remover.");
+    return;
+  }
+
+  print("Pessoa removida com sucesso.");
 }

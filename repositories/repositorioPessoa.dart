@@ -20,6 +20,10 @@ class RepositorioPessoa {
     return _dao.atualizarPessoa(id, Pessoa(id, nome, email, telefone, idade));
   }
 
+  Pessoa? buscarPessoaId(int id) {
+    return _dao.buscarPessoaId(id);
+  }
+
   bool removerPessoa(int id) {
     return _dao.removerPessoa(id);
   }
