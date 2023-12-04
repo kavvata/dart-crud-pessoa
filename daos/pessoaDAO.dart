@@ -41,9 +41,55 @@ class PessoaDAO {
     return pessoa;
   }
 
-  Pessoa atualizarPessoa(int id, Pessoa pessoa) {}
+  Pessoa? atualizarPessoa(int id, Pessoa pessoa) {
+    final pstm = _db.prepare('''
+      UPDATE pessoas SET nome=?, email=?, telefone=?, idade=? WHERE id=?
+    ''');
 
-  Pessoa buscarPessoaNome(String nome) {}
+    pstm.execute([
+      pessoa.getNome(),
+      pessoa.getEmail(),
+      pessoa.getTelefone(),
+      pessoa.getIdade(),
+      id
+    ]);
 
-  bool removerPessoa(int id) {}
+    int countAlteradas = _db.getUpdatedRows();
+
+    if (countAlteradas != 1) {
+      print("ERRO: $countAlteradas tabelas alteradas.");
+      return null;
+    }
+
+    return pessoa;
+  }
+
+  Pessoa? buscarPessoaNome(String nome) {
+    final pstm = _db.prepare("SELECT * FROM pessoas WHERE nome=?");
+    ResultSet rs = pstm.select([nome]);
+
+    if (rs.isEmpty) {
+      print("Pessoa $nome nao encontrada");
+      return null;
+    }
+
+    Row linha = rs.first;
+
+    return Pessoa(linha['id'], linha['nome'], linha['email'], linha['telefone'],
+        linha['idade']);
+  }
+
+  bool removerPessoa(int id) {
+    final pstm = _db.prepare("DELETE FROM plantas WHERE id=?");
+    pstm.execute([id]);
+
+    int countAlteradas = _db.getUpdatedRows();
+
+    if (countAlteradas != 1) {
+      print("ERRO: $countAlteradas tabelas alteradas.");
+      return false;
+    }
+
+    return true;
+  }
 }
