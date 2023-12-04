@@ -144,6 +144,11 @@ void remover() {
   stdout.write("Digite o id da Pessoa a ser removida\n> ");
   int id = int.parse(getString());
 
+  if (repo.buscarPessoaId(id) == null) {
+    print("Pessoa $id nao encontrada");
+    return;
+  }
+
   final sucesso = repo.removerPessoa(id);
 
   if (!sucesso) {
