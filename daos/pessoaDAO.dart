@@ -64,12 +64,12 @@ class PessoaDAO {
     return pessoa;
   }
 
-  Pessoa? buscarPessoaNome(String nome) {
-    final pstm = _db.prepare("SELECT * FROM pessoas WHERE nome=?");
-    ResultSet rs = pstm.select([nome]);
+  Pessoa? buscarPessoaId(int id) {
+    final pstm = _db.prepare("SELECT * FROM pessoas WHERE id=?");
+    ResultSet rs = pstm.select([id]);
 
     if (rs.isEmpty) {
-      print("Pessoa $nome nao encontrada");
+      // Pessoa nao encontrada
       return null;
     }
 
@@ -80,7 +80,7 @@ class PessoaDAO {
   }
 
   bool removerPessoa(int id) {
-    final pstm = _db.prepare("DELETE FROM plantas WHERE id=?");
+    final pstm = _db.prepare("DELETE FROM pessoas WHERE id=?");
     pstm.execute([id]);
 
     int countAlteradas = _db.getUpdatedRows();
